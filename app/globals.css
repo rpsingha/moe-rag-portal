@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 224 76% 20%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 30 100% 60%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 145 63% 32%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 224 76% 20%;
+    --radius: 0.5rem;
+    --chart-1: 30 100% 60%;
+    --chart-2: 145 63% 32%;
+    --chart-3: 224 76% 20%;
+    --chart-4: 0 0% 45%;
+    --chart-5: 30 80% 45%;
+    --sidebar-background: 224 76% 15%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 30 100% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 224 60% 25%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 224 50% 25%;
+    --sidebar-ring: 30 100% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.tricolor-top {
+  background: linear-gradient(90deg, #FF9933 33.33%, #FFFFFF 33.33%, #FFFFFF 66.66%, #138808 66.66%);
+  height: 4px;
+}
+
+.ashoka-wheel {
+  animation: spin 30s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.chat-bubble-ai {
+  background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+  border-left: 3px solid #000080;
+}
+
+.citation-hover:hover {
+  background-color: #fff3cd;
+  cursor: pointer;
+}
+
+.timeline-dot {
+  transition: all 0.3s ease;
+}
+
+.timeline-dot:hover {
+  transform: scale(1.5);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000080;
+  border-radius: 3px;
+}

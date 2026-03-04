@@ -16,18 +16,17 @@ async function getDb() {
   return cachedDb;
 }
 
-// ============= LLM SETUP via Google Gemini API =============
+// ============= LLM SETUP via OpenAI API =============
 function getOpenAIClient() {
   return new OpenAI({
-    apiKey: process.env.GEMINI_API_KEY,
-    baseURL: 'https://generativelanguage.googleapis.com/v1beta/openai/',
+    apiKey: process.env.OPENAI_API_KEY,
   });
 }
 
 async function generateLLMResponse(messages) {
   const client = getOpenAIClient();
   const response = await client.chat.completions.create({
-    model: 'gemini-2.0-flash',
+    model: 'gpt-4o-mini',
     messages: messages,
     max_tokens: 4096,
     temperature: 0.3,

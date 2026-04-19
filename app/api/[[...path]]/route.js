@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { MongoClient } from 'mongodb';
 import { v4 as uuidv4 } from 'uuid';
-import OpenAI from 'openai';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // ============= DATABASE CONNECTION =============
 let cachedClient = null;
@@ -16,22 +16,38 @@ async function getDb() {
   return cachedDb;
 }
 
-// ============= LLM SETUP via OpenAI API =============
-function getOpenAIClient() {
-  return new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-}
+// ============= LLM SETUP via Gemini API =============
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 async function generateLLMResponse(messages) {
-  const client = getOpenAIClient();
-  const response = await client.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: messages,
-    max_tokens: 4096,
-    temperature: 0.3,
+  let systemInstruction = "";
+  let contents = [];
+
+  for (const msg of messages) {
+    if (msg.role === 'system') {
+      systemInstruction += msg.content + "\n";
+    } else {
+      contents.push({
+        role: msg.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: msg.content }]
+      });
+    }
+  }
+
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-flash-latest',
+    systemInstruction: systemInstruction.trim() || undefined,
   });
-  return response.choices[0].message.content;
+
+  const response = await model.generateContent({
+    contents: contents,
+    generationConfig: {
+      temperature: 0.3,
+      maxOutputTokens: 4096,
+    }
+  });
+
+  return response.response.text();
 }
 
 // ============= TF-IDF SEARCH ENGINE (No API needed) =============
